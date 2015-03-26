@@ -1,5 +1,15 @@
 # DataRobotTask
 
+## How to run
+App has been tested on Windows only. Browser: Chrome.
+
+1. Ensure you have working npm, bower, protractor.
+2. bower install
+3. npm start
+4. npm test
+5. http://localhost:5000
+
+## Task Description
 https://gist.github.com/bratchenko/990f024e11fd09e6b6bf
 
 We need to know if you understand how web applications are created and how they are tested.
