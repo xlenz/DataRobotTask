@@ -1,0 +1,20 @@
+{
+  "name": "DataRobotTask",
+  "version": "0.0.1",
+  "description": "https://gist.github.com/bratchenko/990f024e11fd09e6b6bf",
+  "main": "server/server.py",
+  "scripts": {
+    "start": "cd server && python server.py",
+    "test": "protractor protractor.conf.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xlenz/DataRobotTask.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xlenz/DataRobotTask/issues"
+  },
+  "homepage": "https://github.com/xlenz/DataRobotTask"
+}
