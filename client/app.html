@@ -15,11 +15,18 @@
 <body>
 <div ng-controller="MainCtrl">
 
-    <div ng-click="randomNumber()">qweqwe</div>
+    <button ng-click="startGame()" ng-disabled="!areNumbersDisabled">Start Game</button>
+    <ul>
+        <li ng-repeat="num in randomNumbers track by $index"
+            ng-click="numberClick($index)">{{num}}
+        </li>
+    </ul>
+    <div ng-show="showEndgameMessage">{{playerWon ? 'Victory' : 'Game Over'}}</div>
 </div>
 
 <script src="components/angularjs/angular.js"></script>
-
+<script src="js/utils.js"></script>
+<script src="js/config.js"></script>
 <script src="js/app.js"></script>
 </body>
 

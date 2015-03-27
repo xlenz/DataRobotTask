@@ -6,62 +6,107 @@
     function randomNumbers() {
         var arr = [];
         var duplicateIds = [];
-        var minNumber = 0;
-        var maxNumber = 9;
-        var numbersCount = 10;
-        var duplicatesCount = 3;
-        var duplicateSameNumberMoreThanOnce = false;
+        var duplicates = {};
 
-        for (var i = 1; i <= 1000 && arr.length < numbersCount; i++) {
-            var randomNumber = getRandomInt(minNumber, maxNumber); //range
-            if (!arrContainsNumber(arr, randomNumber)) {
+        var maxAttempts = drtConfig.numbersCount * drtConfig.attemptsToGenerateEachNumber; //just in case...
+        for (var i = 1; i <= maxAttempts && arr.length < drtConfig.numbersCount; i++) {
+            var randomNumber = drtUtils.getRandomInt(drtConfig.minNumber, drtConfig.maxNumber);
+            if (!drtUtils.arrHasVal(arr, randomNumber)) {
                 arr.push(randomNumber);
             }
         }
 
-        if (arr.length !== numbersCount) {
-            console.error(minNumber, maxNumber, numbersCount, arr);
+        if (arr.length !== drtConfig.numbersCount) {
+            console.error(drtConfig.minNumber, drtConfig.maxNumber, drtConfig.numbersCount, arr);
             throw new Error('failed to generate random numbers..');
         }
 
-        while (duplicatesCount * 2 > duplicateIds.length && duplicateIds.length < arr.length) {
-            var randSourceId = getRandomInt(0, numbersCount - 1);
-            var randTargetId = getRandomInt(0, numbersCount - 1);
+        while (drtConfig.duplicatesCount * 2 > duplicateIds.length && duplicateIds.length < arr.length) {
+            var randSourceId = drtUtils.getRandomInt(0, drtConfig.numbersCount - 1);
+            var randTargetId = drtUtils.getRandomInt(0, drtConfig.numbersCount - 1);
 
-            var duplicateNumber = false;
+            var isDuplicatingNumber = false;
 
-            if (randSourceId !== randTargetId && !arrContainsNumber(duplicateIds, randTargetId)) {
-                if (duplicateSameNumberMoreThanOnce) {
-                    duplicateNumber = true;
-                } else if (!arrContainsNumber(duplicateIds, randSourceId)) {
-                    duplicateNumber = true;
+            if (randSourceId !== randTargetId && !drtUtils.arrHasVal(duplicateIds, randTargetId)) {
+                if (drtConfig.duplicateSameNumberMoreThanOnce) {
+                    isDuplicatingNumber = true;
+                } else if (!drtUtils.arrHasVal(duplicateIds, randSourceId)) {
+                    isDuplicatingNumber = true;
                 }
             }
 
-            if (duplicateNumber) {
-                arr[randTargetId] = arr[randSourceId];
+            if (isDuplicatingNumber) {
+                var dupNumber = arr[randSourceId];
+                arr[randTargetId] = dupNumber;
+                if (duplicates[dupNumber] === undefined) {
+                    duplicates[dupNumber] = [];
+                }
+
                 duplicateIds.push(randSourceId);
                 duplicateIds.push(randTargetId);
-                //console.log(arr[randTargetId]);
+
+                if (!drtUtils.arrHasVal(duplicates[dupNumber], randSourceId)) {
+                    duplicates[dupNumber].push(randSourceId);
+                }
+                if (!drtUtils.arrHasVal(duplicates[dupNumber], randTargetId)) {
+                    duplicates[dupNumber].push(randTargetId);
+                }
             }
         }
 
-        console.log(arr);
-        return arr;
-    }
-
-    function arrContainsNumber(arr, number) {
-        return arr.some(function (el) {
-            return el === number;
-        })
-    }
-
-    function getRandomInt(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
+        console.log(duplicates);
+        return {
+            arr: arr,
+            duplicates: duplicates
+        };
     }
 
     app.controller('MainCtrl', function ($scope) {
-        $scope.randomNumber = randomNumbers;
+        $scope.areNumbersDisabled = true;
+        $scope.playerWon = null;
+        $scope.showEndgameMessage = false;
 
+        $scope.randomNumbers = [];
+        var duplicates = {};
+        var duplicatesCount = 0;
+
+        $scope.startGame = function () {
+            $scope.showEndgameMessage = false;
+            var gameData = randomNumbers();
+            $scope.randomNumbers = gameData.arr;
+            duplicates = gameData.duplicates;
+            duplicatesCount = drtConfig.duplicatesCount;
+            $scope.areNumbersDisabled = false;
+        };
+
+        function gameOver() {
+            $scope.areNumbersDisabled = true;
+            $scope.playerWon = false;
+            $scope.showEndgameMessage = true;
+        }
+
+        function victory() {
+            $scope.areNumbersDisabled = true;
+            $scope.playerWon = true;
+            $scope.showEndgameMessage = true;
+        }
+
+        $scope.numberClick = function (id) {
+            if ($scope.areNumbersDisabled) {
+                return;
+            }
+            var dupNumber = $scope.randomNumbers[id];
+            if (duplicates[dupNumber] !== undefined && duplicates[dupNumber].length > 1) {
+                var dupIdx = duplicates[dupNumber].indexOf(id);
+                duplicates[dupNumber].splice(dupIdx, 1);
+                $scope.randomNumbers.splice(id, 1);
+                duplicatesCount--;
+                if (duplicatesCount === 0) {
+                    victory();
+                }
+            } else {
+                gameOver();
+            }
+        };
     });
 })();
