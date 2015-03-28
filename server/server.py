@@ -15,4 +15,4 @@ def staticFiles(path):
     return send_from_directory(staticRoot, path)
 
 if __name__ == '__main__':
-  app.run()
+  app.run(host='0.0.0.0')
