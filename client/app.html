@@ -13,15 +13,26 @@
 </head>
 
 <body>
-<div ng-controller="MainCtrl">
 
-    <button ng-click="startGame()" ng-disabled="!areNumbersDisabled">Start Game</button>
-    <ul>
-        <li ng-repeat="num in randomNumbers track by $index"
-            ng-click="numberClick($index)">{{num}}
-        </li>
-    </ul>
-    <div ng-show="showEndgameMessage">{{playerWon ? 'Victory' : 'Game Over'}}</div>
+<div class="gameContainer" ng-controller="MainCtrl">
+    <h1>Find <span>duplicates</span></h1>
+
+    <div class="controllBar">
+        <button class="btn noSelect" ng-click="startGame()" ng-disabled="!areNumbersDisabled">Start Game</button>
+    </div>
+
+    <div class="numbersContainer" ng-cloak>
+        <div class="gameResultOverlay" ng-show="showEndgameMessage"></div>
+        <span class="gameResultText"
+              ng-show="showEndgameMessage"
+              ng-class="{gameResultTextVictory: playerWon}">{{playerWon ? 'Victory' : 'Game Over'}}</span>
+        <ul class="randomNumbers noSelect" ng-class="{randomNumbersDim: showEndgameMessage}">
+            <li class="noSelect" ng-repeat="num in randomNumbers track by $index"
+                ng-click="numberClick($index, num)"
+                ng-class="isTouch() ? 'touch' : 'no-touch'"><span>{{num}}</span>
+            </li>
+        </ul>
+    </div>
 </div>
 
 <script src="components/angularjs/angular.js"></script>

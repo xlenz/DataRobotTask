@@ -8,7 +8,8 @@
         var duplicateIds = [];
         var duplicates = {};
 
-        var maxAttempts = drtConfig.numbersCount * drtConfig.attemptsToGenerateEachNumber; //just in case...
+        //random numbers array
+        var maxAttempts = drtConfig.numbersCount * drtConfig.attemptsToGenerateEachNumber;
         for (var i = 1; i <= maxAttempts && arr.length < drtConfig.numbersCount; i++) {
             var randomNumber = drtUtils.getRandomInt(drtConfig.minNumber, drtConfig.maxNumber);
             if (!drtUtils.arrHasVal(arr, randomNumber)) {
@@ -16,14 +17,18 @@
             }
         }
 
+        //make sure random numbers arrays is ok
         if (arr.length !== drtConfig.numbersCount) {
             console.error(drtConfig.minNumber, drtConfig.maxNumber, drtConfig.numbersCount, arr);
             throw new Error('failed to generate random numbers..');
         }
 
-        while (drtConfig.duplicatesCount * 2 > duplicateIds.length && duplicateIds.length < arr.length) {
-            var randSourceId = drtUtils.getRandomInt(0, drtConfig.numbersCount - 1);
-            var randTargetId = drtUtils.getRandomInt(0, drtConfig.numbersCount - 1);
+        //duplicate some numbers
+        var maxArrIdx = drtConfig.numbersCount - 1;
+        var duplicatesAndNumberCount = calcDuplicatesAndNumber(duplicates);
+        while (drtConfig.maxDuplicatesCount > duplicatesAndNumberCount.duplicatesCount && duplicatesAndNumberCount.numbersUsed < drtConfig.numbersCount) {
+            var randSourceId = drtUtils.getRandomInt(0, maxArrIdx);
+            var randTargetId = drtUtils.getRandomInt(0, maxArrIdx);
 
             var isDuplicatingNumber = false;
 
@@ -38,26 +43,40 @@
             if (isDuplicatingNumber) {
                 var dupNumber = arr[randSourceId];
                 arr[randTargetId] = dupNumber;
-                if (duplicates[dupNumber] === undefined) {
-                    duplicates[dupNumber] = [];
-                }
 
                 duplicateIds.push(randSourceId);
                 duplicateIds.push(randTargetId);
 
+                if (duplicates[dupNumber] === undefined) {
+                    duplicates[dupNumber] = [];
+                }
                 if (!drtUtils.arrHasVal(duplicates[dupNumber], randSourceId)) {
                     duplicates[dupNumber].push(randSourceId);
                 }
                 if (!drtUtils.arrHasVal(duplicates[dupNumber], randTargetId)) {
                     duplicates[dupNumber].push(randTargetId);
                 }
+                duplicatesAndNumberCount = calcDuplicatesAndNumber(duplicates);
             }
         }
 
-        console.log(duplicates);
         return {
             arr: arr,
-            duplicates: duplicates
+            duplicates: duplicates,
+            duplicatesCount: duplicatesAndNumberCount.duplicatesCount
+        };
+    }
+
+    function calcDuplicatesAndNumber(duplicates) {
+        var duplicatesCount = 0;
+        var numbersUsed = 0;
+        angular.forEach(duplicates, function (value, key) {
+            duplicatesCount += value.length - 1;
+            numbersUsed += value.length;
+        });
+        return {
+            numbersUsed: numbersUsed,
+            duplicatesCount: duplicatesCount
         };
     }
 
@@ -75,7 +94,7 @@
             var gameData = randomNumbers();
             $scope.randomNumbers = gameData.arr;
             duplicates = gameData.duplicates;
-            duplicatesCount = drtConfig.duplicatesCount;
+            duplicatesCount = gameData.duplicatesCount;
             $scope.areNumbersDisabled = false;
         };
 
@@ -91,14 +110,13 @@
             $scope.showEndgameMessage = true;
         }
 
-        $scope.numberClick = function (id) {
+        $scope.numberClick = function (id, num) {
             if ($scope.areNumbersDisabled) {
                 return;
             }
-            var dupNumber = $scope.randomNumbers[id];
-            if (duplicates[dupNumber] !== undefined && duplicates[dupNumber].length > 1) {
-                var dupIdx = duplicates[dupNumber].indexOf(id);
-                duplicates[dupNumber].splice(dupIdx, 1);
+            if (duplicates[num] !== undefined && duplicates[num].length > 1) {
+                var dupIdx = duplicates[num].indexOf(id);
+                duplicates[num].splice(dupIdx, 1);
                 $scope.randomNumbers.splice(id, 1);
                 duplicatesCount--;
                 if (duplicatesCount === 0) {
@@ -107,6 +125,10 @@
             } else {
                 gameOver();
             }
+        };
+
+        $scope.isTouch = function () {
+            return ('ontouchstart' in document);
         };
     });
 })();

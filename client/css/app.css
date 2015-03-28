@@ -1,0 +1,152 @@
+@font-face {
+    font-family: 'Open Sans';
+    src: url('../fonts/OpenSans/OpenSans-Regular.woff') format('woff');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url('../fonts/OpenSans/OpenSans-Bold.woff') format('woff');
+    font-weight: 700;
+}
+
+body {
+    background-color: #262626;
+    font-family: Arial, sans-serif;
+}
+
+.gameContainer {
+    width: 350px;
+    margin: 5px auto;
+    background-color: whitesmoke;
+    padding: 25px;
+}
+
+h1 {
+    text-align: center;
+    text-transform: uppercase;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 27px;
+    color: #444444;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+h1 > span {
+    font-weight: 400;
+}
+
+.controllBar {
+    margin-bottom: 10px;
+}
+
+.btn {
+    font-family: Arial;
+    color: #ffffff;
+    font-size: 18px;
+    background: #3498db;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+    border: none;
+    outline: none;
+    transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+    background: #3cb0fd;
+    text-decoration: none;
+}
+
+.btn:disabled {
+    background: #999999;
+}
+
+.btn:disabled:hover {
+    background: #999999;
+}
+
+ul.randomNumbers {
+    margin-left: -10px;
+    transition: opacity 0.5s ease;
+}
+
+ul.randomNumbersDim {
+    opacity: 0.2;
+}
+
+.numbersContainer {
+    position: relative;
+}
+
+.numbersContainer .gameResultOverlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #FFD39B;
+    opacity: 0.4;
+    z-index: 1;
+    box-shadow: 0 0 5px 2px #FFD39B, 7px 0 5px #FFD39B, -7px 0 5px #FFD39B;
+    cursor: pointer;
+}
+
+.numbersContainer .gameResultText {
+    font-size: 40px;
+    font-weight: 700;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #C73E48;
+    z-index: 2;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.numbersContainer .gameResultText.gameResultTextVictory {
+    color: #15B5A3;
+}
+
+ul.randomNumbers li {
+    cursor: pointer;
+    display: inline-block;
+    height: 80px;
+    width: 80px;
+    background-color: #8e44ad;
+    position: relative;
+    margin: 5px 0 1px 10px;
+    transition: background-color 0.2s ease;
+}
+
+ul.randomNumbers li.touch:active {
+    background-color: #C868EF;
+}
+
+ul.randomNumbers li.no-touch:hover {
+    background-color: #C868EF;
+}
+
+ul.randomNumbers li > span {
+    cursor: pointer;
+    font-size: 40px;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ffffff;
+}
+
+.noSelect, .noSelect:focus {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline-style: none;
+}
+
+[ng\:cloak], [ng-cloak], .ng-cloak {
+    display: none !important
+}
