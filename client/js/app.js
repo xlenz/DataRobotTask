@@ -25,7 +25,7 @@
 
         //duplicate some numbers
         var maxArrIdx = drtConfig.numbersCount - 1;
-        var duplicatesAndNumberCount = calcDuplicatesAndNumber(duplicates);
+        var duplicatesAndNumberCount = calcDuplicatesAndNumbers(duplicates);
         while (drtConfig.maxDuplicatesCount > duplicatesAndNumberCount.duplicatesCount && duplicatesAndNumberCount.numbersUsed < drtConfig.numbersCount) {
             var randSourceId = drtUtils.getRandomInt(0, maxArrIdx);
             var randTargetId = drtUtils.getRandomInt(0, maxArrIdx);
@@ -56,7 +56,7 @@
                 if (!drtUtils.arrHasVal(duplicates[dupNumber], randTargetId)) {
                     duplicates[dupNumber].push(randTargetId);
                 }
-                duplicatesAndNumberCount = calcDuplicatesAndNumber(duplicates);
+                duplicatesAndNumberCount = calcDuplicatesAndNumbers(duplicates);
             }
         }
 
@@ -67,7 +67,7 @@
         };
     }
 
-    function calcDuplicatesAndNumber(duplicates) {
+    function calcDuplicatesAndNumbers(duplicates) {
         var duplicatesCount = 0;
         var numbersUsed = 0;
         angular.forEach(duplicates, function (value, key) {

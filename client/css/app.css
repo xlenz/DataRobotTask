@@ -77,7 +77,6 @@ ul.randomNumbersDim {
     opacity: 0.4;
     z-index: 1;
     box-shadow: 0 0 5px 2px #FFD39B, 7px 0 5px #FFD39B, -7px 0 5px #FFD39B;
-    
 }
 
 .numbersContainer .gameResultText {
