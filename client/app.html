@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="todoApp">
+<html ng-app="drt">
 
 <head lang="en">
     <meta charset="utf-8">
@@ -16,6 +16,12 @@
 
 <div class="gameContainer" ng-controller="MainCtrl">
     <h1>Find <span>duplicates</span></h1>
+
+    <div class="details">
+        <p>To win you have to get rid of duplicate numbers.</p>
+
+        <p>One mistake and you lose.</p>
+    </div>
 
     <div class="controllBar">
         <button class="btn noSelect" ng-click="startGame()" ng-disabled="!areNumbersDisabled">Start Game</button>

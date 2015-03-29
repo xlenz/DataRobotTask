@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-    var app = angular.module('todoApp', []);
+    var app = angular.module('drt', []);
 
     function randomNumbers() {
         var arr = [];
