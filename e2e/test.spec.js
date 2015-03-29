@@ -95,6 +95,7 @@ function playGame(winGame, clickDupsBeforeLose) {
             clickDupsBeforeLose = 0;
         } else if (!(clickDupsBeforeLose >= 0 && clickDupsBeforeLose <= drtConfig.duplicatesCount)) {
             console.warn('cannot click on duplicates before game over, invalid duplicates count provided: ' + clickDupsBeforeLose);
+            clickDupsBeforeLose = 0;
         }
     }
 
