@@ -4,19 +4,13 @@
 App has been tested on Windows only. Browser: Chrome.
 
 1. Ensure you have working npm, bower, protractor.
-2. bower install
-3. npm start
-4. npm test
-5. http://localhost:5000
+2. `bower install`
+3. `npm start`
+4. `npm test`
+5. [http://localhost:5000](http://localhost:5000)
 
 ## Task Description
-https://gist.github.com/bratchenko/990f024e11fd09e6b6bf
-
-We need to know if you understand how web applications are created and how they are tested.
-This task includes both.
-
-It also shows if you are able to learn new tools and technologies, so we specify
-which ones you should use. If you already know all of them - good for you :)
+[See full description](https://gist.github.com/bratchenko/990f024e11fd09e6b6bf)
 
 The task is to create a simple web application that does following:
 
@@ -32,11 +26,3 @@ Then write end-to-end tests for this application.
 
 * Use http://flask.pocoo.org/ for writing backend of the application.
 * Use http://angular.github.io/protractor/ to write end-to-end tests for the application.
-
-Both frameworks have nice examples on homepages, so if you didn't use any of them before,
-you should be able to look at examples and figure out how to do it.
-
-Put you solution to a public github repository where we can see it. It should contain
-instructions about how to launch application and tests.
-
-Send link to the repository to person who gave you this task.
